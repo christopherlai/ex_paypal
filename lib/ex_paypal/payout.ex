@@ -13,4 +13,8 @@ defmodule ExPaypal.Payout do
 
     Operation.new(:post, "/v1/payments/payouts", body)
   end
+
+  def get_batch_details(batch_id) do
+    Operation.new(:get, "/v1/payments/payouts/#{batch_id}")
+  end
 end

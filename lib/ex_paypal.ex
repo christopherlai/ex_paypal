@@ -49,5 +49,5 @@ defmodule ExPaypal do
     configuration.json_library.encode!(body)
   end
 
-  def build_body(%{body: body}), do: body
+  def build_body(%{body: body}, _configuration), do: body
 end
