@@ -10,15 +10,15 @@ defmodule ExPaypal.Token do
     encoded_keys = Base.encode64("#{configuration.client_id}:#{configuration.client_secret}")
     headers = [{"Accept", "application/json"}, {"Authorization", "Basic #{encoded_keys}"}]
 
-    case configuration.http_client.request(:post, url, headers, body, follow_redirect: true) do
-      {:ok, %{status_code: 200, body: body}} ->
+    case configuration.http_client.request_token(:post, url, headers, body) do
+      {:ok, body} ->
         body
         |> configuration.json_library.decode!()
         |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
         |> Credential.new()
 
-      error ->
-        Logger.error("Unable to obtain access token, reason: #{inspect(error)}")
+      {:error, reason} ->
+        Logger.error("Unable to obtain access token, reason: #{inspect(reason)}")
         Credential.new([])
     end
   end

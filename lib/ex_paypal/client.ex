@@ -8,6 +8,8 @@ defmodule ExPaypal.Client do
           | {:ok, %{status_code: integer(), headers: keyword(), body: any()}}
           | {:error, %{reason: any()}}
 
+  @type t :: {:ok, any}
+
   @doc """
   Request the given `Operation` using the runtime configurations from `Configuration`.
   """
@@ -18,4 +20,11 @@ defmodule ExPaypal.Client do
               body :: any(),
               opts :: any()
             ) :: r()
+
+  @callback request_token(
+              method :: atom(),
+              url :: binary(),
+              headers :: keyword(),
+              body :: any()
+            ) :: t()
 end

@@ -13,4 +13,17 @@ defmodule ExPaypal.Client.Hackney do
         {:error, %{reason: reason}}
     end
   end
+
+  def request_token(method, url, headers, body) do
+    case :hackney.request(method, url, headers, body, [:with_body, follow_redirect: true]) do
+      {:ok, _status, _headers} ->
+        {:ok, "{}"}
+
+      {:ok, _status, _headers, body} ->
+        {:ok, body}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
 end
